@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">MyGameMenu</string>
+    <string name="auswahlmenu">Auswahlmenü</string>
+    <string name="spiel_starten">Spiel starten</string>
+    <string name="highscores">Highscores</string>
+    <string name="einstellungen">Einstellungen</string>
+    <string name="ueber">Über</string>
+    <string name="my_game">My Game</string>
+    <string name="superben3">superBen3</string>
+    <string name="autor_ben">Autor: Ben</string>
+    <string name="ver_1_0">Ver. 1.0</string>
+    <string name="contentDesc" />
+    <string name="sound_an_aus">Sound (An/Aus):</string>
+    <string name="off">OFF</string>
+    <string name="on">ON</string>
+    <string name="benutzername">Benutzername</string>
+    <string name="speichern">Speichern</string>
+</resources>
