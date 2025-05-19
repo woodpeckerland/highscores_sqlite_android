@@ -40,9 +40,9 @@ public class DatabaseHelperOpen extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         database = db;
         String sql = "CREATE TABLE " + TABLE_HIGHSCORES + " ("
-                + HIGHSCORES_COLUMN_ID + " INT PRIMARY KEY AUTOINCREMENT, "
+                + HIGHSCORES_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + HIGHSCORES_COLUMN_USERNAME + " VARCHAR(40), "
-                + HIGHSCORES_COLUMN_PUNKTE + " INT);";
+                + HIGHSCORES_COLUMN_PUNKTE + " INTEGER);";
         db.execSQL(sql);
     }
 
