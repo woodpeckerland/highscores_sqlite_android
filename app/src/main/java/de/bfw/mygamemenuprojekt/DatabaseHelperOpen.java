@@ -17,18 +17,18 @@ public class DatabaseHelperOpen extends SQLiteOpenHelper {
     private SQLiteDatabase database;
 
     // database
-    private static final String DB_NAME = "myDatabase.db";
+    private static final String DB_NAME = "mydb.db";
     private static final int DB_VERSION = 1;
     private static String dbPath = "";
 
-    // tables
+    //tables
     private static final String TABLE_HIGHSCORES = "tbl_highscores";
 
     // table ITEMS
     private static final String HIGHSCORES_COLUMN_ID = "id";
     private static final String HIGHSCORES_COLUMN_USERNAME = "username";
     private static final String HIGHSCORES_COLUMN_PUNKTE = "punkte";
-
+    // usw.
 
     public DatabaseHelperOpen(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -39,11 +39,15 @@ public class DatabaseHelperOpen extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         database = db;
+        String sql = "CREATE TABLE " + TABLE_HIGHSCORES + " ("
+                + HIGHSCORES_COLUMN_ID + " INT PRIMARY KEY AUTOINCREMENT, "
+                + HIGHSCORES_COLUMN_USERNAME + " VARCHAR(40), "
+                + HIGHSCORES_COLUMN_PUNKTE + " INT);";
+        db.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     @Override
@@ -59,7 +63,7 @@ public class DatabaseHelperOpen extends SQLiteOpenHelper {
         super.close();
     }
 
-    // Open the database, so we can query it
+    //Open the database, so we can query it
     public boolean openDataBase() {
         String mPath = dbPath + DB_NAME;
         database = SQLiteDatabase.openDatabase(mPath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
@@ -67,23 +71,26 @@ public class DatabaseHelperOpen extends SQLiteOpenHelper {
     }
 
     public void createDataBase() {
+
         //If the database does not exist, copy it from the assets.
         boolean dbExists = checkDataBase();
+
         if (!dbExists) {
             this.getReadableDatabase();
             copyDataBase();
         }
     }
 
-    // Check that the database exists here: /data/data/your package/databases/DbName -  /data/user/0/your package/databases/
+    //Check that the database exists here: /data/data/your package/databases/DbName -  /data/user/0/your package/databases/
     private boolean checkDataBase() {
         return new File(dbPath).exists();
     }
 
-    // Copy the database from assets
+    //Copy the database from assets
     private void copyDataBase() {
 
         FileOutputStream output = null;
+
         try {
             InputStream is = context.getAssets().open("databases/" + DB_NAME);
             output = new FileOutputStream(dbPath);
@@ -92,8 +99,10 @@ public class DatabaseHelperOpen extends SQLiteOpenHelper {
             while ((mLength = is.read(mBuffer)) > 0) {
                 output.write(mBuffer, 0, mLength);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
+
         } finally {
 
             try {
@@ -101,19 +110,15 @@ public class DatabaseHelperOpen extends SQLiteOpenHelper {
                     output.flush();
                     output.close();
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    /**
-     * write new Highscore in database
-     *
-     * @param highscores new Highscores entry
-     * @return true|false if saved or not
-     */
     public boolean instertHighscore(Highscores highscores) {
+
         SQLiteDatabase database = getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
@@ -123,16 +128,9 @@ public class DatabaseHelperOpen extends SQLiteOpenHelper {
 
         // Insert the new row and returning the primary key value of the new row
         long newRowId = database.insert(TABLE_HIGHSCORES, null, values);
-
         return newRowId != -1;
     }
 
-    /**
-     * update Highscores in database
-     *
-     * @param highscores new Highscores entry
-     * @return true|false if saved or not
-     */
     /*
     public boolean updateHighscores(Highscores highscores) {
         SQLiteDatabase database = getWritableDatabase();
@@ -147,29 +145,19 @@ public class DatabaseHelperOpen extends SQLiteOpenHelper {
 
         return newRowId != -1;
     }
-     */
+    */
 
-    /**
-     * delete highscores in database
-     *
-     * @param highscores new Highscores entry
-     * @return true|false if saved or not
-     */
     public boolean deleteHighscores(Highscores highscores) {
+
         SQLiteDatabase database = getWritableDatabase();
 
         // Insert the new row and returning the primary key value of the new row
-        long newRowId = database.delete(TABLE_HIGHSCORES, "id=?", new String[]{String.valueOf(highscores.getId())});
-
+        long newRowId = database.delete(TABLE_HIGHSCORES, "id=?", new String[]{String.valueOf(highscores.getId())} );
         return newRowId != -1;
     }
 
-    /**
-     * get all table entries from db
-     *
-     * @return list of all Highscores
-     */
     public ArrayList<Highscores> getAllHighscores() {
+
         this.database = getReadableDatabase();
         ArrayList<Highscores> list = new ArrayList<>();
 
@@ -177,6 +165,7 @@ public class DatabaseHelperOpen extends SQLiteOpenHelper {
         Cursor cursorItems = database.rawQuery(sql, null);
 
         if (cursorItems.moveToFirst()) {
+
             do {
                 int id = cursorItems.getInt(0);
                 String username = cursorItems.getString(1);

@@ -2,8 +2,8 @@ package de.bfw.mygamemenuprojekt;
 
 public class Highscores {
 
-    private final String username;
-    private final int id, punkte;
+    final private String username;
+    final private int id, punkte;
 
     public Highscores(String username, int id, int punkte) {
         this.username = username;
